@@ -6,7 +6,7 @@
 2. ESP32 boards manager: `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`
 
 ### How to use 
-![Alt text](/esp32-cam-connectivity.png "ESP32-CAM connectivity")
+![Alt text](./esp32-cam-connectivity.png "ESP32-CAM connectivity")
 
 Upload the sample code:
 
