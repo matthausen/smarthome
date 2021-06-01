@@ -12,11 +12,11 @@ const char* wifi_password = "ssid_password";
 
 // MQTT
 const char* mqtt_server = "192.168.0.8";  // IP of the MQTT broker
-const char* humidity_topic = "home/livingroom/humidity";
-const char* temperature_topic = "home/livingroom/temperature";
+const char* humidity_topic = "home/garden/humidity";
+const char* temperature_topic = "home/garden/temperature";
 const char* mqtt_username = "MQTT username"; // MQTT username
 const char* mqtt_password = "MQTT password"; // MQTT password
-const char* clientID = "client_livingroom"; // MQTT client ID
+const char* clientID = "client_garden"; // MQTT client ID
 
 // Initialise the WiFi and MQTT Client objects
 WiFiClient wifiClient;
