@@ -1,8 +1,8 @@
 import paho.mqtt.client as mqtt
 
 MQTT_ADDRESS = '192.168.0.129'
-MQTT_USER = 'user'
-MQTT_PASSWORD = 'password'
+MQTT_USER = 'username'
+MQTT_PASSWORD = 'passowrd'
 MQTT_TOPIC = 'home/+/+'
 
 
