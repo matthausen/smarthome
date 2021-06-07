@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openweather-service
+  labels:
+    app: openweather-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: openweather-service
+  template:
+    metadata:
+      labels:
+        app: openweather-service
+    spec:
+      containers:
+        - name: openweather-service
+          image: matthausen/openweather-service:latest
+          env:
+            - name: OPENWEATHER_API_KEY
+              value: <your value here>
+            - name: OPENWEATHER_CITY
+              value: London
