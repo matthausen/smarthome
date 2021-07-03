@@ -1,22 +1,29 @@
 #include "DHT.h"
-#include "PubSubClient.h"
-#include "WiFi.h"
-#define DHTPIN 4
+#include "PubSubClient.h" // Connect and publish to the MQTT broker
+#include "time.h"
+
+// Code for the ESP32
+#include "WiFi.h" // Enables the ESP32 to connect to the local network (via WiFi)
+#define DHTPIN 4  // Pin connected to the DHT sensor
 
 #define DHTTYPE DHT22  // DHT11 or DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
 // WiFi
-const char* ssid = "ssid";
-const char* wifi_password = "ssid_password";
+const char* ssid = "SSID";
+const char* wifi_password = "SSID_PASSWORD";
 
 // MQTT
-const char* mqtt_server = "192.168.0.8";  // IP of the MQTT broker
+const char* mqtt_server = "192.168.0.129";  // IP of the MQTT broker
 const char* humidity_topic = "home/garden/humidity";
 const char* temperature_topic = "home/garden/temperature";
-const char* mqtt_username = "MQTT username"; // MQTT username
-const char* mqtt_password = "MQTT password"; // MQTT password
+const char* mqtt_username = "username"; // MQTT username
+const char* mqtt_password = "password"; // MQTT password
 const char* clientID = "client_garden"; // MQTT client ID
+
+// TIME
+const char* ntpServer = "pool.ntp.org";
+unsigned long epochTime;
 
 // Initialise the WiFi and MQTT Client objects
 WiFiClient wifiClient;
@@ -54,18 +61,32 @@ void connect_MQTT(){
   }
 }
 
+// GetTime -> returns the time from NTP server
+unsigned long getTime() {
+  time_t now;
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo)) {
+    Serial.println("Failed to obtain time");
+    return 0;
+  }
+  time(&now);
+  return now;
+}
+
 
 void setup() {
   Serial.begin(9600);
   dht.begin();
+  connect_MQTT();
+  configTime(0, 0, ntpServer);
 }
 
 void loop() {
-  connect_MQTT();
   Serial.setTimeout(2000);
   
   float h = dht.readHumidity();
   float t = dht.readTemperature();
+  epochTime = getTime();
   
   Serial.print("Humidity: ");
   Serial.print(h);
@@ -73,6 +94,7 @@ void loop() {
   Serial.print("Temperature: ");
   Serial.print(t);
   Serial.println(" *C");
+  Serial.println(epochTime);
 
   // MQTT can only transmit strings
   String hs="Hum: "+String((float)h)+" % ";
@@ -103,6 +125,6 @@ void loop() {
     delay(10); // This delay ensures that client.publish doesn't clash with the client.connect call
     client.publish(humidity_topic, String(h).c_str());
   }
-  client.disconnect();  // disconnect from the MQTT broker
+  // client.disconnect();  // disconnect from the MQTT broker
   delay(1000*60);       // print new values every 1 Minute
 }
