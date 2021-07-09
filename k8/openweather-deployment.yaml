@@ -23,3 +23,15 @@ spec:
               value: <your value here>
             - name: OPENWEATHER_CITY
               value: London
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openweather-service
+spec:
+  selector:
+    app: openweather-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

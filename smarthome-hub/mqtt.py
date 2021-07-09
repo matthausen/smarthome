@@ -1,9 +1,19 @@
+import os
 import paho.mqtt.client as mqtt
+import redis
+from dotenv import load_dotenv
 
-MQTT_ADDRESS = '192.168.0.129'
-MQTT_USER = 'username'
-MQTT_PASSWORD = 'passowrd'
-MQTT_TOPIC = 'home/+/+'
+load_dotenv()
+
+
+redis_host = os.getenv('REDIS_HOST')
+redis_port = os.getenv('REDIS_PORT') #port provided by `minikube service redis-master --url`
+redis_password = os.getenv('REDIS_PASSWORD')
+
+MQTT_ADDRESS = os.getenv('MQTT_ADDRESS')
+MQTT_USER = os.getenv('MQTT_USER')
+MQTT_PASSWORD = os.getenv('MQTT_PASSWORD')
+MQTT_TOPIC = os.getenv('MQTT_TOPIC')
 
 
 def on_connect(client, userdata, flags, rc):
@@ -15,6 +25,16 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     """The callback for when a PUBLISH message is received from the server."""
     print(msg.topic + ' ' + str(msg.payload))
+    try:
+   
+        r = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password, decode_responses=True)
+
+        if msg.topic == 'home/garden/temperature': r.set("Temp", str(msg.payload))
+        if msg.topic == 'home/garden/humidity': r.set("Hum", str(msg.payload))
+        if msg.topic == 'home/garden/datetime': r.set("Timestamp", str(msg.payload))
+      
+    except Exception as e:
+        print(e)
 
 
 def main():

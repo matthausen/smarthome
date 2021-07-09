@@ -17,8 +17,9 @@ const char* wifi_password = "SSID_PASSWORD";
 const char* mqtt_server = "192.168.0.129";  // IP of the MQTT broker
 const char* humidity_topic = "home/garden/humidity";
 const char* temperature_topic = "home/garden/temperature";
-const char* mqtt_username = "username"; // MQTT username
-const char* mqtt_password = "password"; // MQTT password
+const char* datetime_topic = "home/garden/datetime";
+const char* mqtt_username = "mqtt_user"; // MQTT username
+const char* mqtt_password = "mqtt_password"; // MQTT password
 const char* clientID = "client_garden"; // MQTT client ID
 
 // TIME
@@ -99,6 +100,7 @@ void loop() {
   // MQTT can only transmit strings
   String hs="Hum: "+String((float)h)+" % ";
   String ts="Temp: "+String((float)t)+" C ";
+  String datetime="Date Time: "+String(epochTime);
 
   // PUBLISH to the MQTT Broker (topic = Temperature, defined at the beginning)
   if (client.publish(temperature_topic, String(t).c_str())) {
@@ -124,6 +126,19 @@ void loop() {
     client.connect(clientID, mqtt_username, mqtt_password);
     delay(10); // This delay ensures that client.publish doesn't clash with the client.connect call
     client.publish(humidity_topic, String(h).c_str());
+  }
+
+  // PUBLISH to the MQTT Broker (topic = Date Time, defined at the beginning)
+  if (client.publish(datetime_topic, String(epochTime).c_str())) {
+    Serial.println("Date Time sent!");
+  }
+  // Again, client.publish will return a boolean value depending on whether it succeded or not.
+  // If the message failed to send, we will try again, as the connection may have broken.
+  else {
+    Serial.println("DateTime failed to send. Reconnecting to MQTT Broker and trying again");
+    client.connect(clientID, mqtt_username, mqtt_password);
+    delay(10); // This delay ensures that client.publish doesn't clash with the client.connect call
+    client.publish(datetime_topic, String(epochTime).c_str());
   }
   // client.disconnect();  // disconnect from the MQTT broker
   delay(1000*60);       // print new values every 1 Minute
