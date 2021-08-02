@@ -1,3 +1,4 @@
 weather-service
 venv
 .env
+secrets.yaml

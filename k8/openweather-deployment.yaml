@@ -6,7 +6,7 @@ metadata:
   labels:
     app: openweather-service
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: openweather-service
@@ -18,11 +18,24 @@ spec:
       containers:
         - name: openweather-service
           image: matthausen/openweather-service:latest
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: "1"
+            requests:
+              memory: 128Mi
+              cpu: "0.2"
           env:
             - name: OPENWEATHER_API_KEY
-              value: <your value here>
-            - name: OPENWEATHER_CITY
-              value: London
+              valueFrom:
+                secretKeyRef:
+                  name: smarthome-secrets
+                  key: openweather-api-key
+            - name: CITY
+              valueFrom:
+                secretKeyRef:
+                  name: smarthome-secrets
+                  key: city
 ---
 apiVersion: v1
 kind: Service
@@ -35,3 +48,4 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+  type: LoadBalancer

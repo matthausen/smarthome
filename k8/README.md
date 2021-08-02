@@ -1,8 +1,8 @@
 ## Architecture
-The smarthome is made of services running as indipendent pods.
-Minikube is is the Kubernetes cluster that takes care of everything.
+The smarthome runs with a kubernetes cluster managed by minikube.
+Each service is contained in a docker image hosted on DockerHub and pulled by kubernetes into individual deployments.
 
-Each application has its own deployment and service and runs an image hosted in the Docker Hub container registry.
+Secrets are managed in a Secret config manifest file
 
 ### kubectl cheat sheet
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/
