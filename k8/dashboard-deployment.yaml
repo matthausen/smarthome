@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smarthome-dashboard
+  labels:
+    app: dahsboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smarthome-dashboard
+  template:
+    metadata:
+      labels:
+        app: smarthome-dashboard
+    spec:
+      containers:
+      - name: smarthome-dashboard
+        image: matthausen/smarthome-dashboard
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "300m"
+          limits:
+            memory: "200Mi"
+            cpu: "600m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smarthome-dashboard
+spec:
+  selector:
+    app: smarthome-dashboard
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 31000
+  type: NodePort

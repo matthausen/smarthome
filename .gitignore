@@ -2,3 +2,5 @@ weather-service
 venv
 .env
 secrets.yaml
+/node_modules
+/build

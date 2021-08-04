@@ -14,10 +14,19 @@ Create a deployment
 - `kubectl apply -f <deployment.yml`
 
 Describe the deployment
-- `kubectl describe <pod name>`
+- `kubectl describe <deployment>`
+
+Describe a service:
+- `kubectl describe service <service-name>`
+
+Find external IP of a load balanced service:
+- `kubectl get services <my-service>`
 
 List all deployments:
 - `kubectl get deployments`
+
+List all services:
+- `kubectl get services`
 
 Delete a specific deployment
 - `kubectl delete deployment <deployment-name>`
