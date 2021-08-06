@@ -34,9 +34,18 @@ Delete a specific deployment
 Force delete a pod after deleting its deployment:
 - `kubectl delete pods <pod> --grace-period=0 --force`
 
+### Port forward to service
+To access the backend service from the react app running locally, you can portforward to one of its pods:
+- `kubectl port-forward openweather-service-7f7c54dbf8-29jbm 8080:8080`
 
-### Redis
-The redis database exposes port 6379.
-However to connect to it from an external app, you can run:
+### Exposing a service:
+There are 4 configuration we can use to expose a service:
+- ClusterIP: (default value if not specified). The service is available only inside the cluster
+- LoadBalancer: expose application on public network
+- NodeIP: exposes the service on each nodeIP at a static port (NodePort)
+- Ingress: exposes HTTP and HTTPS routes from outside the cluster to services within the cluster
+
+
+
+This command "tunnel" is useful only for minikube because it does not support service:LoadBalancer
 - `minikube service redis-master --url`
-to find out which port you can use for connection.

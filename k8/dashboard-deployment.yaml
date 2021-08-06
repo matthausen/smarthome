@@ -28,6 +28,11 @@ spec:
             cpu: "600m"
         ports:
         - containerPort: 80
+        env:
+        - name: NODE_ENV
+          value: production
+        - name: OPENWEATHERAPI_BASE_URL
+          value: openweather-service
 ---
 apiVersion: v1
 kind: Service
