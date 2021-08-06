@@ -1,4 +1,3 @@
-## Architecture
 The smarthome runs with a kubernetes cluster managed by minikube.
 Each service is contained in a docker image hosted on DockerHub and pulled by kubernetes into individual deployments.
 
