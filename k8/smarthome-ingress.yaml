@@ -2,23 +2,24 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: smarthome-ingress
-  labels:
-    name: smarthome-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
       paths:
-      - pathType: Prefix
-        path: "/*"
+      - path: /
+        pathType: Prefix
         backend:
           service:
-            name: dashboard-service
-            port: 
-              number: 3000
-      - pathType: Prefix
-        path: "/api/*"
+            name: dashboard-svc
+            port:
+              number: 80
+
+      - path: /api
+        pathType: Prefix
         backend:
           service:
-            name: openweather-service
-            port: 
+            name: openweather-svc
+            port:
               number: 8080

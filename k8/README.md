@@ -40,10 +40,9 @@ To access the backend service from the react app running locally, you can portfo
 ### Exposing a service:
 There are 4 configuration we can use to expose a service:
 - ClusterIP: (default value if not specified). The service is available only inside the cluster
-- LoadBalancer: expose application on public network
-- NodeIP: exposes the service on each nodeIP at a static port (NodePort)
+- NodePort:  Exposes the Service on the same port of each selected Node in the cluster using NAT
+- LoadBalancer - Creates an external load balancer in the current cloud (if supported) and assigns a fixed, external IP to the Service. Superset of NodePort.
 - Ingress: exposes HTTP and HTTPS routes from outside the cluster to services within the cluster
-
 
 
 This command "tunnel" is useful only for minikube because it does not support service:LoadBalancer

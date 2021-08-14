@@ -37,7 +37,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: smarthome-dashboard
+  name: dashboard-svc
 spec:
   selector:
     app: smarthome-dashboard

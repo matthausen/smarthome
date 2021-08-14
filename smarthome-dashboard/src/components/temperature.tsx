@@ -4,10 +4,10 @@ import React, {useEffect, useState} from 'react'
 export default function Temperature(){
     const [weatherData, setWeatherData] = useState()
     
-    const apiUrl = (window.location.href === "127.0.0.1") ? 'localhost:8080' : "openweather-service"; 
+    // const apiUrl = (window.location.hostname === "127.0.0.1") ? 'localhost:8080' : "openweather-service"; 
     
     useEffect(() => {
-        fetch(`http://${apiUrl}/api/v1/weather/current`)
+        fetch(`http://192.168.64.4:30000/health`)
             .then(res => console.log(res))
     }, []);
 

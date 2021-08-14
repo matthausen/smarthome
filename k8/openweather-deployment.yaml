@@ -40,11 +40,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: openweather-service
+  name: openweather-svc
 spec:
+  type: NodePort
   selector:
     app: openweather-service
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+      nodePort: 30000
