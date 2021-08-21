@@ -7,7 +7,7 @@ export default function Temperature(){
     // const apiUrl = (window.location.hostname === "127.0.0.1") ? 'localhost:8080' : "openweather-service"; 
     
     useEffect(() => {
-        fetch(`http://192.168.64.4:30000/health`)
+        fetch(`http://minikube.info/api/health`)
             .then(res => console.log(res))
     }, []);
 
