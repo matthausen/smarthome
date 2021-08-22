@@ -27,7 +27,7 @@ spec:
             memory: "200Mi"
             cpu: "600m"
         ports:
-        - containerPort: 80
+        - containerPort: 5000
         env:
         - name: NODE_ENV
           value: production
@@ -41,8 +41,8 @@ metadata:
 spec:
   selector:
     app: smarthome-dashboard
+  type: ClusterIP
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP
+      port: 5000
+      targetPort: 5000
