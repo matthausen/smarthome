@@ -44,6 +44,9 @@ There are 4 configuration we can use to expose a service:
 - LoadBalancer - Creates an external load balancer in the current cloud (if supported) and assigns a fixed, external IP to the Service. Superset of NodePort.
 - Ingress: exposes HTTP and HTTPS routes from outside the cluster to services within the cluster
 
+Loadbalancer services must be exopsed via the `tunnel` command.
 
-This command "tunnel" is useful only for minikube because it does not support service:LoadBalancer
-- `minikube service redis-master --url`
+- `minikube service --url <service-name>`
+
+
+- `minikube ip` Get the IP where the cluster is running

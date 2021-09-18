@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+  dashboard:
+    container_name: dashboard
+    image: matthausen/smarthome-dashboard:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - smarthome-private
+    links:
+      - openweather
+    environment:
+      - VIRTUAL_HOST=smarthome.local
+
+  openweather:
+    container_name: openweather
+    image: matthausen/openweather-service:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - smarthome-private
+    environment:
+      - VIRTUAL_HOST=openweather.local
+    
+  ingress:
+    container_name: nginx-ingress
+    image: jwilder/nginx-proxy:latest
+    restart: always
+    privileged: true
+    networks:
+      - smarthome-private
+    links:
+       - dashboard
+       - openweather
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    
+networks:
+  smarthome-private:
+    name: main
