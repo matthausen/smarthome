@@ -15,7 +15,7 @@ func GracefullyShutDown(ctx context.Context) (err error) {
 	mux.Handle("/health", http.HandlerFunc(HealthCheck))
 
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":80",
 		Handler: mux,
 	}
 

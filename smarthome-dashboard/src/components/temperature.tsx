@@ -7,7 +7,7 @@ export default function Temperature(){
     // const apiUrl = (window.location.hostname === "127.0.0.1") ? 'localhost:8080' : "openweather-service"; 
     
     useEffect(() => {
-        fetch(`http://192.168.64.5:32125/health`)
+        fetch(`http://smarthome.info/api/health`)
             .then(res => console.log(res))
     }, []);
 
